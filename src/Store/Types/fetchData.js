@@ -1,0 +1,2 @@
+export const FETCH_PROBLEMS="FETCH_PROBLEMS"
+export const PROB_LOADER="PROB_LOADER"
