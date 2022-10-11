@@ -161,11 +161,54 @@ export const checkRef=async ()=>{
 }
 
 
-export const addProblems=(payload)=>{
+export const addProblems=async ({selection,current,ref})=>{
+    console.log("action+++",ref);
 
+    const dataref=doc(db,"users",ref)
     store.dispatch({
-            type : ADD_PROBLEMS,
-            myProblems:payload
-        
+        type:AUTH_LOADER,
+        authLoader:true
     })
+    if(current.length===0){
+        await updateDoc(dataref, {
+            myProblems: selection
+          });
+        store.dispatch({
+            type : ADD_PROBLEMS,
+            myProblems:selection 
+        })
+
+    }
+    else{
+      const s = new Set();
+      let arr=current
+    //   let counter=current.length
+      current.forEach((elem)=>s.add(elem.Problems))
+      selection.forEach((elem)=>{
+          if(!s.has(elem.Problems)){
+            // ++counter;
+            s.add(elem.Problems)
+            arr.push(elem)
+          }
+      })
+      await updateDoc(dataref, {
+        myProblems: arr
+      });
+      store.dispatch({
+        type : ADD_PROBLEMS,
+        myProblems:arr 
+    })
+
+    }
+    store.dispatch({
+        type:AUTH_LOADER,
+        authLoader:false
+    })
+    toast.success("Selected Problems added to the list.")
+    
+    // store.dispatch({
+    //         type : ADD_PROBLEMS,
+    //         myProblems:payload
+        
+    // })
 }

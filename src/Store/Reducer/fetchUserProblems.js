@@ -1,8 +1,9 @@
-import { FETCH_PROBLEMS, PROB_LOADER } from "../Types/fetchData"
+import { FETCH_PROBLEMS, PROB_LOADER, SAVED_PROB_LIST } from "../Types/fetchData"
 
 const searched_problems ={
     prob:[],
-    probLoader:false
+    probLoader:false,
+    savedProbList:[]
 }
 
 export const searched_problemsReducer=(state=searched_problems,action)=>{
@@ -17,6 +18,11 @@ export const searched_problemsReducer=(state=searched_problems,action)=>{
             return {
                 ...state,
                 probLoader:action.probLoader
+            }
+        case SAVED_PROB_LIST:
+            return {
+                ...state,
+                savedProbList:action.savedProbList
             }
         default:
             return state;

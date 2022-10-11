@@ -122,24 +122,34 @@ const ResponsiveAppBar = () => {
             MINOR-BONAR
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => ( */}
               <Button
-                key={page}
+                // key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {/* {page} */}
-                <Link to={"my_problems"} style={{textDecoration:'none',color:"white"}}>{page}</Link>
+
+                <Link to={"my_problems"} style={{textDecoration:'none',color:"white"}}>My Problems</Link>
               </Button>
-            ))}
+            {/* ))} */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            {!isAuthenticated?<Button   
+            sx={{ my: 2, color: 'white', display: 'block' }}
+            onClick={loginAction}
+            >
+
+              Sign In
+
+            </Button> :
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="U" src={userDetails?.photoURL} />
               </IconButton>
             </Tooltip>
+            }
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -158,12 +168,12 @@ const ResponsiveAppBar = () => {
             >
               {/* {settings.map((setting) => ( */}
                 <MenuItem  onClick={handleCloseUserMenu}>
-                  {
+                  {/* {
                    !isAuthenticated? 
-                   <Typography textAlign="center" onClick={loginAction}>Login</Typography>
-                   :
+                   <Typography textAlign="center" onClick={loginAction}>Login</Typography> */}
+                   {/* : */}
                    <Typography textAlign="center" onClick={logoutAction} >Logout</Typography>
-                  }
+                  {/* } */}
                 </MenuItem>
               {/* ))} */}
             </Menu>

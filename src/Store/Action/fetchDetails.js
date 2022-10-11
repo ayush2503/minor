@@ -1,8 +1,10 @@
 import { Code } from "@mui/icons-material";
 import axios from "axios";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../helpers/firebase.js";
 import store from "../index.js";
-import { FETCH_PROBLEMS, PROB_LOADER } from "../Types/fetchData";
-
+import { FETCH_PROBLEMS, PROB_LOADER, SAVED_PROB_LIST } from "../Types/fetchData";
+import "../../helpers/firebase"
 export const fetchProblems = async (payload)=>{
     store.dispatch({
         type:PROB_LOADER,
@@ -28,7 +30,7 @@ export const fetchProblems = async (payload)=>{
               
             }
           }); 
-          console.log("arr",arr);    
+        //   console.log("arr",arr);    
           store.dispatch({
             type:FETCH_PROBLEMS,
             problems:arr
@@ -41,4 +43,15 @@ export const fetchProblems = async (payload)=>{
         })
 
     })
+}
+
+export const fetchSavedProbList =async (userRef)=>{
+    console.log(userRef)
+    const dataref=doc(db,"users",userRef)
+    const ref = await getDoc(dataref)
+    store.dispatch({
+        type:SAVED_PROB_LIST,
+        savedProbList:ref.data().myProblems
+    })
+    console.log(ref.data().myProblems);
 }

@@ -1,109 +1,115 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import { DataGrid } from '@mui/x-data-grid';
 import { fetchProblems } from '../../Store/Action/fetchDetails';
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Loader from '../../helpers/Loader/Loader';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { checkRef } from '../../Store/Action/userAuthAction';
+import { addProblems } from '../../Store/Action/userAuthAction';
+import { Box } from '@mui/system';
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'code', headerName: 'code', width: 100 },
-    { field: 'Problems', headerName: 'Problems' , sortable:false,flex:2},
-    { field: 'ContestID', headerName: 'Contest ID', flex: 1 ,sortable:false },   
-    {field:"Route",
-    renderCell:(cellValues)=>{
-      console.log(cellValues.row.uri)
-      return <a href={`${cellValues.row.uri}`}  target="_blank"> Link</a>
+  { field: 'id', headerName: 'ID', width: 100 },
+  { field: 'code', headerName: 'code', width: 100 },
+  { field: 'Problems', headerName: 'Problems', sortable: false, flex: 2 },
+  { field: 'ContestID', headerName: 'Contest ID', flex: 1, sortable: false },
+  {
+    field: "Route",
+    renderCell: (cellValues) => {
+     
+      return <a href={`${cellValues.row.uri}`} target="_blank"> Link</a>
     }
   }
-    
-  ];
-  
-  const rows = [
-    { id: 1, Problems: 'Snow', ContestID: 'Jon', },
-    { id: 2, Problems: 'Lannister', ContestID: 'Cersei', },
-    { id: 3, Problems: 'Lannister', ContestID: 'Jaime', },
-    { id: 4, Problems: 'Stark', ContestID: 'Arya', },
-    { id: 5, Problems: 'Targaryen', ContestID: 'Daenerys', },
-    { id: 6, Problems: 'Melisandre', ContestID: null, },
-    { id: 7, Problems: 'Clifford', ContestID: 'Ferrara', },
-    { id: 8, Problems: 'Frances', ContestID: 'Rossini', },
-    { id: 9, Problems: 'Roxie', ContestID: 'Harvey', },
-  ];
+
+];
+
 function Home() {
-const [text, setText] = useState("Fefer_Ivan")
-const [open, setopen] = useState(null)
-    const dispatch = useDispatch()
-    const {prob,probLoader}=useSelector(state=>state.fetchedProblem)
-    const{userDetails,authLoader}=useSelector(state=>state.authDetails)
-    
-   const  handleCellClick=(param,event)=>{
+  const [text, setText] = useState("Fefer_Ivan")
+
+  const [selectedProb, setselectedProb] = useState([])
+  const { prob, probLoader } = useSelector(state => state.fetchedProblem)
+  const { userDetails, authLoader ,isAuthenticated} = useSelector(state => state.authDetails)
+
+  const handleCellClick = (param, event) => {
     console.log(event.stopPropagation());
     event.stopPropagation();
-    
-    }
-    const handleRowClick = (param, event) => {
-      event.stopPropagation();
-    };
-    const handleAlert=()=>{
-      setopen(true)
+
+  }
+  const handleRowClick = (param, event) => {
+    event.stopPropagation();
+  };
+
+  const handleAddProblems = () => {
+    if (selectedProb.length > 0) {
+      const res = prob?.filter((d) => {
+        return selectedProb.includes(d.id)
+      })
+      console.log("userDetails",userDetails);
+      addProblems({selection:res,current:userDetails.myProblems,ref:userDetails.ref})
+      setselectedProb([])
     }
 
-    const handleAddProblems=()=>{
 
-    }
+  }
   return (
-    <div style={{display:'flex',flexDirection:"column", alignItems:"center"}}>
-         
+    <div style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
 
-        <div style={{padding:'2vmax',width:"40%",display:'flex',justifyContent:"space-between"}}>
-        <TextField style={{width:"80%"}} placeholder={"Enter CodeChef User id"} 
-        onChange={(val=>setText(val.target.value))} 
-        value={text}
+
+      <div style={{ padding: '2vmax', width: "40%", display: 'flex', justifyContent: "space-between" }}>
+        <TextField style={{ width: "80%" }} placeholder={"Enter CodeChef User id"}
+          onChange={(val => setText(val.target.value))}
+          value={text}
         />
-        <Button variant="contained" size="small"  onClick={()=>{
-            fetchProblems(text)
-        
-         } }>
+        <Button variant="contained" size="small" onClick={() => {
+          fetchProblems(text)
+
+        }}>
           search
         </Button>
-        </div>
-        <div style={{height:"65vh",width:"100%"}}>
+      </div>
 
-            {/* <div className="row" style={{}}> */}
-            {prob.length>0?
-            <DataGrid
+        {/* <div className="row" style={{}}> */}
+        { prob.length > 0 ?
+      <div style={{ height: "65vh", width: "100%" }}>
+        {/* <div> */}
+          <DataGrid
             rows={prob}
-            getRowId={(row) =>row.id}
-        columns={columns}
-        pageSize={50}
-        rowsPerPageOptions={[9]}
-        checkboxSelection
-        onSelectionModelChange={(selection)=>console.log(selection)}
-        onCellClick={handleCellClick}
-        onRowClick={handleRowClick}
-      />: <div></div>}
-            {/* </div> */}
-        </div>
-        <Button variant="contained" size="small" onClick={()=>{
-           handleAddProblems()
-         }
+            getRowId={(row) => row.id}
+            columns={columns}
+            pageSize={50}
+            rowsPerPageOptions={[9]}
+            checkboxSelection
+            onSelectionModelChange={(selection) => {
+              console.log("aaaaaa", selection)
+              setselectedProb(selection)
+              // handleAddProblems(selection)
+            }}
+            selectionModel={selectedProb}
+            onCellClick={handleCellClick}
+            onRowClick={handleRowClick}
+          />
+          <Box sx={{ display:'flex',justifyContent: 'center',mt:2 }}>
+          <Button variant="contained" size="small" onClick={() => {
+        if(!isAuthenticated)
+        {
+          return toast.error("Please Login to continue!!")
+        }
+        handleAddProblems()
+      }
 
-            }>
-          ADD 
-        </Button>
-        {(probLoader||authLoader)  && <Loader/>}
+      }>
+        ADD
+      </Button >
+
+          </Box>
+        </div> : 
+        
+        <div></div>}
+        {/* </div> */}
+      {/* </div> */}
+      
+      {(probLoader || authLoader) && <Loader />}
 
     </div>
   )

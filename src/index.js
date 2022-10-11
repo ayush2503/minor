@@ -18,14 +18,8 @@ root.render(
 
     <Provider store={store}>
         <BrowserRouter>
-            {/* <Routes>
-                <Route path="/" element={<App />}>
-                </Route>
-                <Route path="/err" element={<Test/>} />
-            </Routes> */}
             <App/>
         </BrowserRouter>,
-
     </Provider>
 );
 
