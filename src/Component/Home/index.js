@@ -13,6 +13,8 @@ import { fetchProblems } from '../../Store/Action/fetchDetails';
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../helpers/Loader/Loader';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { checkRef } from '../../Store/Action/userAuthAction';
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
@@ -41,8 +43,11 @@ const columns = [
   ];
 function Home() {
 const [text, setText] = useState("Fefer_Ivan")
+const [open, setopen] = useState(null)
     const dispatch = useDispatch()
     const {prob,probLoader}=useSelector(state=>state.fetchedProblem)
+    const{userDetails,authLoader}=useSelector(state=>state.authDetails)
+    
    const  handleCellClick=(param,event)=>{
     console.log(event.stopPropagation());
     event.stopPropagation();
@@ -51,9 +56,16 @@ const [text, setText] = useState("Fefer_Ivan")
     const handleRowClick = (param, event) => {
       event.stopPropagation();
     };
+    const handleAlert=()=>{
+      setopen(true)
+    }
+
+    const handleAddProblems=()=>{
+
+    }
   return (
     <div style={{display:'flex',flexDirection:"column", alignItems:"center"}}>
-        
+         
 
         <div style={{padding:'2vmax',width:"40%",display:'flex',justifyContent:"space-between"}}>
         <TextField style={{width:"80%"}} placeholder={"Enter CodeChef User id"} 
@@ -85,14 +97,14 @@ const [text, setText] = useState("Fefer_Ivan")
             {/* </div> */}
         </div>
         <Button variant="contained" size="small" onClick={()=>{
-            fetchProblems({payload:"Fefer_Ivan", dispatchFunction:dispatch})
-        
+           handleAddProblems()
          }
 
             }>
           ADD 
         </Button>
-        {probLoader && <Loader/>}
+        {(probLoader||authLoader)  && <Loader/>}
+
     </div>
   )
 }

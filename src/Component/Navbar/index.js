@@ -14,9 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginAction, logoutAction } from '../../Store/Action/userAuthAction';
+
 
 const pages = ['My Problems'];
-const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = () => {
 
@@ -24,6 +25,7 @@ const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const data=useSelector(state=>state.fetchedProblem)
   const navigate=useNavigate()
+  const{isAuthenticated,userDetails}=useSelector(state=>state.authDetails)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -135,7 +137,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="U" src={userDetails?.photoURL} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -154,11 +156,16 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {/* {settings.map((setting) => ( */}
+                <MenuItem  onClick={handleCloseUserMenu}>
+                  {
+                   !isAuthenticated? 
+                   <Typography textAlign="center" onClick={loginAction}>Login</Typography>
+                   :
+                   <Typography textAlign="center" onClick={logoutAction} >Logout</Typography>
+                  }
                 </MenuItem>
-              ))}
+              {/* ))} */}
             </Menu>
           </Box>
         </Toolbar>
