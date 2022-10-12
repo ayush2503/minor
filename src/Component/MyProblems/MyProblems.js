@@ -16,9 +16,13 @@ function MyProblems() {
     // console.log(cellValues.api.getRowIndex(cellValues.row.id))
   
   }},
-    { field: 'code', headerName: 'code', width: 100 },
     { field: 'Problems', headerName: 'Problems', sortable: false, flex: 2 },
+    { field: 'tags', headerName: 'Tags', width: 100 ,flex:2.5,renderCell:(cellValues)=>{
+
+      return <div style={{display:'flex'}}>{cellValues.row.tags.map(elem=><p style={{marginRight:'5px'}}><span style={{color:"#0077b6"}}>{elem}</span> | </p>)}</div>
+    }},
     { field: 'ContestID', headerName: 'Contest ID', flex: 1, sortable: false },
+    { field: 'Rating', headerName: 'Rating', width: 100 },
     {
       field: "Route",
       renderCell: (cellValues) => {

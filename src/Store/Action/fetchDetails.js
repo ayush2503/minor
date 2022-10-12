@@ -18,15 +18,17 @@ export const fetchProblems = async (payload)=>{
         let counter =0;
         dis.filter((data) => {
             
+            
             let Problems = data.problem.name;
+            if (!s.has(Problems)) {
             let ContestID = data.problem.contestId;
             let code = data.problem.index;
+            let Rating = data.problem.rating;
+            let tags = data.problem.tags;
             let link =`https://codeforces.com/contest/${ContestID}/problem/${code}`
-        
-            if (!s.has(Problems)) {
-                ++counter
+            ++counter
               s.add(Problems);
-              arr.push({ Problems, ContestID, code,id:counter , uri:link});
+              arr.push({ Problems, ContestID, Rating,id:counter ,tags, uri:link});
               
             }
           }); 
