@@ -17,6 +17,7 @@
     "axios": "^1.0.0",
     "firebase": "^9.11.0",
     "react": "^18.2.0",
+    "react-animated-progress-bar": "^1.1.1",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",

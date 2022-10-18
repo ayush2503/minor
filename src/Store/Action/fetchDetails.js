@@ -3,7 +3,7 @@ import axios from "axios";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../helpers/firebase.js";
 import store from "../index.js";
-import { FETCH_PROBLEMS, PROB_LOADER, SAVED_PROB_LIST } from "../Types/fetchData";
+import { FETCH_PROBLEMS, MY_PROB_LOADER, PROB_LOADER, SAVED_PROB_LIST } from "../Types/fetchData";
 import "../../helpers/firebase"
 export const fetchProblems = async (payload)=>{
     store.dispatch({
@@ -48,6 +48,10 @@ export const fetchProblems = async (payload)=>{
 }
 
 export const fetchSavedProbList =async (userRef)=>{
+    store.dispatch({
+        type:MY_PROB_LOADER,
+        myProbLoader:true
+    })
     console.log(userRef)
     const dataref=doc(db,"users",userRef)
     const ref = await getDoc(dataref)
@@ -56,4 +60,8 @@ export const fetchSavedProbList =async (userRef)=>{
         savedProbList:ref.data().myProblems
     })
     console.log(ref.data().myProblems);
+    store.dispatch({
+        type:MY_PROB_LOADER,
+        myProbLoader:false
+    })
 }

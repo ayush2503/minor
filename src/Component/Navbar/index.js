@@ -136,6 +136,7 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            {/* {false?<Button    */}
             {!isAuthenticated?<Button   
             sx={{ my: 2, color: 'white', display: 'block' }}
             onClick={loginAction}
@@ -146,7 +147,7 @@ const ResponsiveAppBar = () => {
             </Button> :
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar  src={userDetails?.photoURL} />
+                <Avatar  src={userDetails.photoURL}/>
               </IconButton>
             </Tooltip>
             }
