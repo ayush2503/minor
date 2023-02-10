@@ -79,7 +79,8 @@ function MyProblems() {
             columns={columns}
             pageSize={50}
             rowsPerPageOptions={[9]}
-            checkboxSelection
+            // checkboxSelection
+            disableColumnMenu={true}
           /> : <div></div>}
        </div>
 
@@ -104,8 +105,8 @@ function MyProblems() {
         </Paper>
 
         {/* statsCard */}
-        <Typography variant='p' style={{fontSize:"1vmax",fontWeight:"550", color:"#515151"}}>Your Performance</Typography>
-        <Paper elevation={1} style={{padding:"1vmax",marginTop:"0.5vmax"}}>
+        <Typography variant='p' style={{fontSize:"1vmax",fontWeight:"550", color:"#515151",marginBottom:"0.5vmax"}}>Your Performance</Typography>
+        <Paper elevation={1} style={{padding:"1vmax",}}>
         <ProgressBar   defColor={{
             fair: 'orangered',
             good: 'yellow',

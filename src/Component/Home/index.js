@@ -94,6 +94,8 @@ function Home() {
             selectionModel={selectedProb}
             onCellClick={handleCellClick}
             onRowClick={handleRowClick}
+            disableColumnMenu={true}
+            
           />
           <Box sx={{ display:'flex',justifyContent: 'center',mt:2 }}>
           <Button variant="contained" size="small" onClick={() => {

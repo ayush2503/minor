@@ -46,6 +46,7 @@ export const loginAction= async ()=>{
     })
     signInWithPopup(auth, provider)
   .then(async (result) => {
+    console.log("In then");
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
@@ -89,6 +90,7 @@ export const loginAction= async ()=>{
     console.log(auth.currentUser)
     // ...
   }).catch((error) => {
+    console.log("in error",error);
     store.dispatch({
         type:IS_USER_AUTHENTICATED,
         ifAuthenticated:false
@@ -97,15 +99,7 @@ export const loginAction= async ()=>{
         type:AUTH_LOADER,
         authLoader:false
     })
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    toast.error("Error , Please try login after some time")
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
+  
   });
     
     
